@@ -1,4 +1,4 @@
-# Newspaper_Example_DAO_Maven
+# Java_Example_Newspaper_DAO
 > The Newspaper example, showing the full framework developed in the course
 
 This example (also) shows how to implement a simple data model, and includes a model implementation for MySQL. 
@@ -17,6 +17,6 @@ Finally, this example uses a MySQL database. Therefore, you need a working insta
 
 ---
 
-![University od L'Aquila](https://www.disim.univaq.it/skins/aqua/img/logo2021-2.png)
+![University of L'Aquila](https://www.disim.univaq.it/skins/aqua/img/logo2021-2.png)
 
  
