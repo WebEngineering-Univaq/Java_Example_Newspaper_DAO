@@ -11,7 +11,7 @@
 
 
 DROP DATABASE IF EXISTS `webdb2`;
-CREATE DATABASE `webdb2`; /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE `webdb2`; 
 DROP USER IF EXISTS 'website'@'localhost';
 CREATE USER 'website'@'localhost' IDENTIFIED BY 'webpass';
 GRANT ALL ON webdb2.* TO 'website'@'localhost';
@@ -149,6 +149,32 @@ LOCK TABLES `issue` WRITE;
 /*!40000 ALTER TABLE `issue` DISABLE KEYS */;
 INSERT INTO `issue` (`ID`, `number`, `date`) VALUES (1,5,'2013-12-11'),(6,15,'2010-05-27'),(7,11,'2014-01-07'),(8,18,'2014-01-08'),(9,16,'2014-01-08'),(10,1,'2017-05-02');
 /*!40000 ALTER TABLE `issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(300) NOT NULL,
+  `version` int unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (4,'a','0518c94d194f5b6ddf06b14fefb1cfb9adfbe3c1dbc2108626bec7252df3e32336b10534a58fc800ed163c36064419b9',1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

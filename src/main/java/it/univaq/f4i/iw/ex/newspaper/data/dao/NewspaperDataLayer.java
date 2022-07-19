@@ -4,6 +4,7 @@ import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Image;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Issue;
+import it.univaq.f4i.iw.ex.newspaper.data.model.User;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.data.DataLayer;
 import java.sql.SQLException;
@@ -27,6 +28,7 @@ public class NewspaperDataLayer extends DataLayer {
         registerDAO(Author.class, new AuthorDAO_MySQL(this));
         registerDAO(Issue.class, new IssueDAO_MySQL(this));
         registerDAO(Image.class, new ImageDAO_MySQL(this));
+        registerDAO(User.class, new UserDAO_MySQL(this));
     }
 
     //helpers    
@@ -44,6 +46,10 @@ public class NewspaperDataLayer extends DataLayer {
 
     public ImageDAO getImageDAO() {
         return (ImageDAO) getDAO(Image.class);
+    }
+    
+     public UserDAO getUserDAO() {
+        return (UserDAO) getDAO(User.class);
     }
 
 }

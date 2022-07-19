@@ -8,10 +8,17 @@
  */
 package it.univaq.f4i.iw.ex.newspaper.controller;
 
+import it.univaq.f4i.iw.ex.newspaper.data.dao.NewspaperDataLayer;
+import it.univaq.f4i.iw.ex.newspaper.data.model.User;
+import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -27,31 +34,48 @@ public class Login extends NewspaperBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("referrer", request.getParameter("referrer"));
         result.activate("login.ftl.html", request, response);
+
+//        //esempio di creazione utente
+//        //create user example
+//        try {
+//            User u = ((NewspaperDataLayer) request.getAttribute("datalayer")).getUserDAO().createUser();
+//            u.setUsername("a");
+//            u.setPassword(SecurityHelpers.getPasswordHashPBKDF2("p"));
+//            ((NewspaperDataLayer) request.getAttribute("datalayer")).getUserDAO().storeUser(u);
+//        } catch (DataException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
+    //nota: usente di default nel database: nome a, password p
+    //note: default user in the database: name: a, password p
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("u");
         String password = request.getParameter("p");
-        //... VALIDAZIONE IDENTITA'...
-        //... IDENTITY CHECKS ...
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            //se la validazione ha successo
-            //if the identity validation succeeds
-            //carichiamo lo userid dal database utenti
-            //load userid from user database
-            int userid = 1;
-            SecurityHelpers.createSession(request, username, userid);
-            //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-            //if an origin URL has been transmitted, return to it
-            if (request.getParameter("referrer") != null) {
-                response.sendRedirect(request.getParameter("referrer"));
-            } else {
-                response.sendRedirect("issues");
+            try {
+                User u = ((NewspaperDataLayer) request.getAttribute("datalayer")).getUserDAO().getUserByName(username);
+                if (u != null && SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
+                    //se la validazione ha successo
+                    //if the identity validation succeeds
+                    SecurityHelpers.createSession(request, username, u.getKey());
+                    //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                    //if an origin URL has been transmitted, return to it
+                    if (request.getParameter("referrer") != null) {
+                        response.sendRedirect(request.getParameter("referrer"));
+                    } else {
+                        response.sendRedirect("issues");
+                    }
+                    return;
+                }
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            handleError("Login failed", request, response);
         }
+        //se la validazione fallisce...
+        //if the validation fails...
+        handleError("Login failed", request, response);
     }
 
     /**
@@ -76,5 +100,5 @@ public class Login extends NewspaperBaseController {
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);
         }
-    }   
+    }
 }
