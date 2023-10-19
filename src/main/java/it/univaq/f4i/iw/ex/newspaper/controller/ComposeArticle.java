@@ -4,7 +4,6 @@ import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.ex.newspaper.data.dao.NewspaperDataLayer;
-import it.univaq.f4i.iw.framework.data.DataLayer;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
@@ -14,7 +13,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 /**
  *

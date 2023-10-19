@@ -1,11 +1,3 @@
-/*
- * Logout.java
- *
- * Questo esempio mostra come utilizzare le sessioni per autenticare un utente
- * 
- * This example shows how to use sessions to authenticate the user
- *
- */
 package it.univaq.f4i.iw.ex.newspaper.controller;
 
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
