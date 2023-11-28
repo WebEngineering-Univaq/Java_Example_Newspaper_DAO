@@ -3,18 +3,16 @@ package it.univaq.f4i.iw.ex.newspaper.data.impl;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
 import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
-public class AuthorImpl  extends DataItemImpl<Integer>  implements Author {
+public class AuthorImpl extends DataItemImpl<Integer> implements Author {
 
-       private String name;
+    private String name;
     private String surname;
 
     public AuthorImpl() {
-         super();
+        super();
         name = "";
         surname = "";
     }
-
-  
 
     @Override
     public String getName() {
