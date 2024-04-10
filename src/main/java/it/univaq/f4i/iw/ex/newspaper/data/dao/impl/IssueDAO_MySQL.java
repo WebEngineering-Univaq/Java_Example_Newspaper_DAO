@@ -1,6 +1,7 @@
-package it.univaq.f4i.iw.ex.newspaper.data.dao;
+package it.univaq.f4i.iw.ex.newspaper.data.dao.impl;
 
-import it.univaq.f4i.iw.ex.newspaper.data.proxy.IssueProxy;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.IssueDAO;
+import it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy.IssueProxy;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Issue;
 import it.univaq.f4i.iw.framework.data.DAO;
 import it.univaq.f4i.iw.framework.data.DataException;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import it.univaq.f4i.iw.framework.data.DataLayer;
 import it.univaq.f4i.iw.framework.data.OptimisticLockException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 
 /**
  *
@@ -87,7 +91,9 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
             IssueProxy i = (IssueProxy) createIssue();
             i.setKey(rs.getInt("ID"));
             i.setNumber(rs.getInt("number"));
-            i.setDate(rs.getDate("date"));
+            //per leggere i nuovi tipi java.time su usa il generico getObject
+            //to read the new java.time types we have to use the generic getObject
+            i.setDate(rs.getObject("date", LocalDate.class));
             i.setVersion(rs.getLong("version"));
             return i;
         } catch (SQLException ex) {
@@ -184,7 +190,11 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
                     return;
                 }
                 uIssue.setInt(2, issue.getNumber());
-                uIssue.setDate(1, new java.sql.Date(issue.getDate().getTime()));
+                //per scrivere i nuovi tipi java.time su usa il generico setObject
+                //LocalDate viene trasformato in DATE
+                //to write the new java.time types we have to use the generic getObject
+                //LocalDate becomes DATE
+                uIssue.setObject(1, issue.getDate());
 
                 //controllo di versione
                 long current_version = issue.getVersion();
@@ -202,7 +212,7 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
             } else { //insert
                 iIssue.setInt(2, issue.getNumber());
                 if (issue.getDate() != null) {
-                    iIssue.setDate(1, new java.sql.Date(issue.getDate().getTime()));
+                    iIssue.setObject(1, issue.getDate());
                 } else {
                     iIssue.setNull(1, java.sql.Types.DATE);
                 }

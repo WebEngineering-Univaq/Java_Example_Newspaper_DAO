@@ -3,14 +3,15 @@ package it.univaq.f4i.iw.ex.newspaper.controller;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Issue;
 import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.NewspaperDataLayer;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.NewspaperDataLayer;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -39,8 +40,8 @@ public class ComposeIssue extends NewspaperBaseController {
         for (int i = 1; i <= 12; ++i) {
             months.add(i);
         }
-        int base_year = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = -5; i <= 5; ++i) {
+        int base_year = LocalDate.now().get(ChronoField.YEAR);
+        for (int i = -20; i <= 3; ++i) {
             years.add(base_year + i);
         }
 
@@ -81,7 +82,7 @@ public class ComposeIssue extends NewspaperBaseController {
                 //issue_key==0 indicates a new issue
                 Issue issue = ((NewspaperDataLayer) request.getAttribute("datalayer")).getIssueDAO().createIssue();
                 issue.setNumber(((NewspaperDataLayer) request.getAttribute("datalayer")).getIssueDAO().getLatestIssueNumber() + 1);
-                issue.setDate(Calendar.getInstance().getTime());
+                issue.setDate(LocalDate.now());
                 request.setAttribute("issue", issue);
                 //forza prima a compilare i dati essenziali per creare un numero
                 //forces first to compile the mandatory fields to create an issue
@@ -108,11 +109,11 @@ public class ComposeIssue extends NewspaperBaseController {
                     && request.getParameter("month") != null
                     && request.getParameter("year") != null) {
                 issue.setNumber(SecurityHelpers.checkNumeric(request.getParameter("number")));
-                Calendar date = Calendar.getInstance();
-                date.set(SecurityHelpers.checkNumeric(request.getParameter("year")),
-                        SecurityHelpers.checkNumeric(request.getParameter("month")) - 1,
+                LocalDate date = LocalDate.of(
+                        SecurityHelpers.checkNumeric(request.getParameter("year")),
+                        SecurityHelpers.checkNumeric(request.getParameter("month")),
                         SecurityHelpers.checkNumeric(request.getParameter("day")));
-                issue.setDate(date.getTime());
+                issue.setDate(date);
                 ((NewspaperDataLayer) request.getAttribute("datalayer")).getIssueDAO().storeIssue(issue);
                 //delega il resto del processo all'azione compose
                 //delegates the rest of the process to the compose action

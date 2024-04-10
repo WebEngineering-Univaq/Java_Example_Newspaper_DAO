@@ -1,14 +1,14 @@
-package it.univaq.f4i.iw.ex.newspaper.data.proxy;
+package it.univaq.f4i.iw.ex.newspaper.data.model.impl.proxy;
 
 import it.univaq.f4i.iw.ex.newspaper.data.dao.ArticleDAO;
 import it.univaq.f4i.iw.ex.newspaper.data.dao.ImageDAO;
-import it.univaq.f4i.iw.ex.newspaper.data.impl.IssueImpl;
+import it.univaq.f4i.iw.ex.newspaper.data.model.impl.IssueImpl;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Image;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.data.DataItemProxy;
 import it.univaq.f4i.iw.framework.data.DataLayer;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +41,7 @@ public class IssueProxy extends IssueImpl implements DataItemProxy  {
  
 
     @Override
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         super.setDate(date);
         this.modified = true;
     }

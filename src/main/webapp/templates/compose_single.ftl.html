@@ -10,7 +10,7 @@
                 <br/>Date: <select name="day" class="small" >
                     <#list days as day>
                     <option value="${day}"
-                            <#if (day?string=issue.date?string("d"))>
+                            <#if (day?string=issue.date.format("d"))>
                             selected="selected"
                             </#if>
                             >${day}</option>
@@ -18,7 +18,7 @@
                 </select>/<select name="month" class="small" >
                     <#list months as month>
                     <option value="${month}"
-                            <#if (month?string=issue.date?string("M"))>
+                            <#if (month?string=issue.date.format("M"))>
                             selected="selected"
                             </#if>
                             >${month}</option>
@@ -26,7 +26,7 @@
                 </select>/<select name="year" class="small" >
                     <#list years as year>
                     <option value="${year?c}"
-                            <#if (year?c?string=issue.date?string("y"))>
+                            <#if (year?c?string=issue.date.format("y"))>
                             selected="selected"
                             </#if>
                             >${year?c}</option>

@@ -1,5 +1,10 @@
-package it.univaq.f4i.iw.ex.newspaper.data.dao;
+package it.univaq.f4i.iw.ex.newspaper.data.dao.impl;
 
+import it.univaq.f4i.iw.ex.newspaper.data.dao.ArticleDAO;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.AuthorDAO;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.ImageDAO;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.IssueDAO;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.UserDAO;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Image;

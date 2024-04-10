@@ -1,6 +1,6 @@
 package it.univaq.f4i.iw.ex.newspaper.controller;
 
-import it.univaq.f4i.iw.ex.newspaper.data.dao.NewspaperDataLayer;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.NewspaperDataLayer;
 import it.univaq.f4i.iw.ex.newspaper.data.model.User;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;

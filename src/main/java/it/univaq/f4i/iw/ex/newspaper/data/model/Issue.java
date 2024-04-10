@@ -1,7 +1,7 @@
 package it.univaq.f4i.iw.ex.newspaper.data.model;
 
 import it.univaq.f4i.iw.framework.data.DataItem;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,9 +14,9 @@ public interface Issue extends DataItem<Integer> {
 
     void setNumber(int number);
 
-    Date getDate();
+    LocalDate getDate();
 
-    void setDate(Date date);
+    void setDate(LocalDate date);
 
     List<Article> getArticles();
 

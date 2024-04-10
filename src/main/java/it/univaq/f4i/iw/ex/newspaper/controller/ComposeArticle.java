@@ -3,7 +3,7 @@ package it.univaq.f4i.iw.ex.newspaper.controller;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Article;
 import it.univaq.f4i.iw.ex.newspaper.data.model.Author;
 import it.univaq.f4i.iw.framework.data.DataException;
-import it.univaq.f4i.iw.ex.newspaper.data.dao.NewspaperDataLayer;
+import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.NewspaperDataLayer;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 import it.univaq.f4i.iw.framework.result.SplitSlashesFmkExt;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
