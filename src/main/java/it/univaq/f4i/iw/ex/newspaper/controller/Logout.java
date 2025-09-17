@@ -2,8 +2,8 @@ package it.univaq.f4i.iw.ex.newspaper.controller;
 
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 /**
  *
@@ -29,7 +29,7 @@ public class Logout extends NewspaperBaseController {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      */
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

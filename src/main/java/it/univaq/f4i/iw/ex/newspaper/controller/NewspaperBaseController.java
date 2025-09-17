@@ -4,7 +4,7 @@ import it.univaq.f4i.iw.ex.newspaper.data.dao.impl.NewspaperDataLayer;
 import it.univaq.f4i.iw.framework.controller.AbstractBaseController;
 import it.univaq.f4i.iw.framework.data.DataLayer;
 import java.sql.SQLException;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import javax.sql.DataSource;
 
 /**

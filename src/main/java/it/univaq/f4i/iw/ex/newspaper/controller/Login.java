@@ -12,8 +12,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 /**
  *
@@ -76,7 +76,7 @@ public class Login extends NewspaperBaseController {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      */
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
