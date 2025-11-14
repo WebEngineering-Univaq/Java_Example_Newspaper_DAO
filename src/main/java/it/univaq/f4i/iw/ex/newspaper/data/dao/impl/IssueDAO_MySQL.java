@@ -15,8 +15,6 @@ import java.util.List;
 import it.univaq.f4i.iw.framework.data.DataLayer;
 import it.univaq.f4i.iw.framework.data.OptimisticLockException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 
 /**
  *
@@ -25,7 +23,7 @@ import java.time.temporal.TemporalField;
 public class IssueDAO_MySQL extends DAO implements IssueDAO {
 
     private PreparedStatement sIssueByID;
-    private PreparedStatement sIssues, sGetLatestIssueNumber, sGetLatestIssueKey;
+    private PreparedStatement sIssues, sGetLatestIssueNumber, sGetLatestIssue;
     private PreparedStatement iIssue, uIssue, dIssue;
 
     public IssueDAO_MySQL(DataLayer d) {
@@ -40,9 +38,9 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
             //precompiliamo tutte le query utilizzate nella classe
             //precompile all the queries uses in this class
             sIssueByID = connection.prepareStatement("SELECT * FROM issue WHERE ID=?");
-            sIssues = connection.prepareStatement("SELECT ID FROM issue");
+            sIssues = connection.prepareStatement("SELECT * FROM issue");
             sGetLatestIssueNumber = connection.prepareStatement("SELECT MAX(number) AS number FROM issue");
-            sGetLatestIssueKey = connection.prepareStatement("SELECT ID FROM issue WHERE number = (SELECT MAX(number) FROM issue)");
+            sGetLatestIssue = connection.prepareStatement("SELECT * FROM issue WHERE number = (SELECT MAX(number) FROM issue)");
 
             //notare l'ultimo parametro extra di questa chiamata a
             //prepareStatement: lo usiamo per assicurarci che il JDBC
@@ -69,7 +67,7 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
             sIssueByID.close();
             sIssues.close();
             sGetLatestIssueNumber.close();
-            sGetLatestIssueKey.close();
+            sGetLatestIssue.close();
 
             iIssue.close();
             uIssue.close();
@@ -133,15 +131,14 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
         List<Issue> result = new ArrayList();
         try (ResultSet rs = sIssues.executeQuery()) {
             while (rs.next()) {
-                //la query  estrae solo gli ID degli issue selezionati
-                //poi sarà getIssue che, con le relative query, popolerà
-                //gli oggetti corrispondenti. Meno efficiente, ma così la
-                //logica di creazione degli issue è meglio incapsulata
-                //the query extracts only the IDs of the selected issues 
-                //then getIssue, with its queries, will populate the 
-                //corresponding objects. Less efficient, but in this way
-                //issue creation logic is better encapsulated
-                result.add(getIssue(rs.getInt("ID")));
+                //evitiamo l'N+1 query problem!
+                //avoid N+1 query problem!
+                Issue i = createIssue(rs);
+                //non dimentichiamo anche qui la cache!
+                //don't forget to put each record in the cache!
+                dataLayer.getCache().add(Issue.class, i);
+                result.add(i);
+
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load issues", ex);
@@ -152,9 +149,15 @@ public class IssueDAO_MySQL extends DAO implements IssueDAO {
     @Override
     public Issue getLatestIssue() throws DataException {
         try (
-                ResultSet rs = sGetLatestIssueKey.executeQuery()) {
+                ResultSet rs = sGetLatestIssue.executeQuery()) {
             if (rs.next()) {
-                return getIssue(rs.getInt("ID"));
+                //evitiamo l'N+1 query problem!
+                //avoid N+1 query problem!
+                Issue i = createIssue(rs);
+                //non dimentichiamo anche qui la cache!
+                //don't forget to put each record in the cache!
+                dataLayer.getCache().add(Issue.class, i);
+                return i;
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load latest issue", ex);
